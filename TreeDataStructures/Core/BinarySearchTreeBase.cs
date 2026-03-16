@@ -170,60 +170,12 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
         return 1 + Math.Max(leftH, rightH);
     }
 
-    protected void RotateLeft(TNode x)
-    {
-        TNode y = x.Right!;
-
-        x.Right = y.Left;
-        if (y.Left != null)
-            y.Left.Parent = x;
-
-        y.Parent = x.Parent;
-        if (x.Parent == null)
-            Root = y;
-        else if (x.IsLeftChild)
-            x.Parent!.Left = y;
-        else
-            x.Parent!.Right = y;
-
-        y.Left = x;
-        x.Parent = y;
-    }
-
-    protected void RotateRight(TNode y)
-    {
-        TNode x = y.Left!;
-
-        y.Left = x.Right;
-        if (x.Right != null)
-            x.Right.Parent = y;
-
-        x.Parent = y.Parent;
-        if (y.Parent == null)
-            Root = x;
-        else if (y.IsLeftChild)
-            y.Parent!.Left = x;
-        else
-            y.Parent!.Right = x;
-
-        x.Right = y;
-        y.Parent = x;
-    }
-    
-    protected void RotateDoubleLeft(TNode x)
-    {
-        RotateRight(x.Right!);
-        RotateLeft(x);
-    }
-    
-    protected void RotateDoubleRight(TNode y)
-    {
-        RotateLeft(y.Left!);
-        RotateRight(y);
-    }
-    
-    protected void RotateBigLeft(TNode x) => RotateDoubleLeft(x);
-    protected void RotateBigRight(TNode y) => RotateDoubleRight(y);
+    protected virtual void RotateLeft(TNode x) => throw new NotImplementedException("RotateLeft — заглушка");
+    protected virtual void RotateRight(TNode y) => throw new NotImplementedException("RotateRight — заглушка");
+    protected virtual void RotateDoubleLeft(TNode x) => throw new NotImplementedException("RotateDoubleLeft — заглушка");
+    protected virtual void RotateDoubleRight(TNode y) => throw new NotImplementedException("RotateDoubleRight — заглушка");
+    protected virtual void RotateBigLeft(TNode x) => throw new NotImplementedException("RotateBigLeft — заглушка");
+    protected virtual void RotateBigRight(TNode y) => throw new NotImplementedException("RotateBigRight — заглушка");
     
     protected void Transplant(TNode u, TNode? v)
     {
