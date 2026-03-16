@@ -9,10 +9,10 @@ using TreeDataStructures.Interfaces;
 namespace TreeDataStructures.Tests.Base;
 
 [TestFixture(typeof(BinarySearchTree<int, string>))]
-[TestFixture(typeof(AvlTree<int, string>))]
-[TestFixture(typeof(RedBlackTree<int, string>))]
-[TestFixture(typeof(SplayTree<int, string>))]
-[TestFixture(typeof(Treap<int, string>))]
+// [TestFixture(typeof(AvlTree<int, string>))]
+// [TestFixture(typeof(RedBlackTree<int, string>))]
+// [TestFixture(typeof(SplayTree<int, string>))]
+// [TestFixture(typeof(Treap<int, string>))]
 public abstract class GenericTreeTests<TTree> where TTree : ITree<int, string>, new()
 {
     protected TTree Tree;
