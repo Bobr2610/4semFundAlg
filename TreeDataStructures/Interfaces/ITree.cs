@@ -4,13 +4,13 @@ public readonly record struct TreeEntry<TKey, TValue>(TKey Key, TValue Value, in
 
 public interface ITree<TKey, TValue> : IDictionary<TKey, TValue>
 {
-    IEnumerable<TreeEntry<TKey, TValue>>  InOrder();   // Infix
-    IEnumerable<TreeEntry<TKey, TValue>>  PreOrder();  // Prefix
-    IEnumerable<TreeEntry<TKey, TValue>>  PostOrder(); // Postfix
+    IEnumerable<TreeEntry<TKey, TValue>>  InOrder(); 
+    IEnumerable<TreeEntry<TKey, TValue>>  PreOrder();
+    IEnumerable<TreeEntry<TKey, TValue>>  PostOrder();
     
-    IEnumerable<TreeEntry<TKey, TValue>>  InOrderReverse();  // Infix Reverse
-    IEnumerable<TreeEntry<TKey, TValue>>  PreOrderReverse(); // Prefix Reverse
-    IEnumerable<TreeEntry<TKey, TValue>>  PostOrderReverse(); // Postfix Reverse
+    IEnumerable<TreeEntry<TKey, TValue>>  InOrderReverse();
+    IEnumerable<TreeEntry<TKey, TValue>>  PreOrderReverse();
+    IEnumerable<TreeEntry<TKey, TValue>>  PostOrderReverse();
     
     IComparer<TKey> Comparer { get; }
 }
