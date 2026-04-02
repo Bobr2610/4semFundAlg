@@ -304,7 +304,7 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
                         if (node.Right != null) _postOrderStack.Push((node.Right, depth + 1, false));
                         if (node.Left != null) _postOrderStack.Push((node.Left, depth + 1, false));
                     }
-                    else // PostOrderReverse
+                    else
                     {
                         if (node.Left != null) _postOrderStack.Push((node.Left, depth + 1, false));
                         if (node.Right != null) _postOrderStack.Push((node.Right, depth + 1, false));
@@ -327,7 +327,7 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
                     if (node.Right != null) _stack.Push((node.Right, depth + 1));
                     if (node.Left != null) _stack.Push((node.Left, depth + 1));
                 }
-                else // PreOrderReverse
+                else
                 {
                     if (node.Left != null) _stack.Push((node.Left, depth + 1));
                     if (node.Right != null) _stack.Push((node.Right, depth + 1));
@@ -378,7 +378,7 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
                 _stack = new Stack<(TNode node, int depth)>();
                 _stack.Push((_startNode, 0));
             }
-            else // InOrder and InOrderReverse
+            else
             {
                 _stack = new Stack<(TNode node, int depth)>();
                 var curr = _startNode;
