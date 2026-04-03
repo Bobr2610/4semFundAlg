@@ -44,6 +44,10 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
                 throw ex;
             }
         }
+        if (parent == null) {
+            ArgumentException ex = new($"Key {key} is a dopelganger");
+            throw ex;
+        }
         int cmp2 = Comparer.Compare(key, parent.Key);
         TNode newNode = CreateNode(key, value);
         newNode.Parent = parent;
