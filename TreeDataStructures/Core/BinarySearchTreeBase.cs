@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using TreeDataStructures.Interfaces;
 
 namespace TreeDataStructures.Core;
@@ -15,8 +16,8 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
     
     public bool IsReadOnly => false;
 
-    public ICollection<TKey> Keys => throw new NotImplementedException();
-    public ICollection<TValue> Values => throw new NotImplementedException();
+    public ICollection<TKey> Keys => this.Select(kv => kv.Key).ToList();
+    public ICollection<TValue> Values => this.Select(kv => kv.Value).ToList();
     
     
     public virtual void Add(TKey key, TValue value)
@@ -122,7 +123,18 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
     public TValue this[TKey key]
     {
         get => TryGetValue(key, out TValue? val) ? val : throw new KeyNotFoundException();
-        set => Add(key, value);
+        set
+        {
+            TNode? node = FindNode(key);
+            if (node != null)
+            {
+                node.Value = value;
+            }
+            else
+            {
+                Add(key, value);
+            }
+        }
     }
 
     
@@ -407,7 +419,10 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
     
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
     {
-        throw new NotImplementedException();
+        foreach (var entry in InOrder())
+        {
+            yield return new KeyValuePair<TKey, TValue>(entry.Key, entry.Value);
+        }
     }
     
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -416,6 +431,16 @@ public abstract class BinarySearchTreeBase<TKey, TValue, TNode>(IComparer<TKey>?
     public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
     public void Clear() { Root = null; Count = 0; }
     public bool Contains(KeyValuePair<TKey, TValue> item) => ContainsKey(item.Key);
-    public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => throw new NotImplementedException();
+    public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+    {
+        if (array == null) throw new ArgumentNullException(nameof(array));
+        if (arrayIndex < 0 || arrayIndex > array.Length) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+        if (array.Length - arrayIndex < Count) throw new ArgumentException("Array is too small");
+
+        foreach (var entry in this)
+        {
+            array[arrayIndex++] = entry;
+        }
+    }
     public bool Remove(KeyValuePair<TKey, TValue> item) => Remove(item.Key);
 }
