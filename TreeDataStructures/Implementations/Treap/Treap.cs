@@ -50,19 +50,35 @@ public class Treap<TKey, TValue> : BinarySearchTreeBase<TKey, TValue, TreapNode<
 
     public override void Add(TKey key, TValue value)
     {
+        if (ContainsKey(key)) throw new ArgumentException($"Key {key} is a dopelganger");
+
         var newNode = CreateNode(key, value);
         var (left, right) = Split(Root, key);
         Root = Merge(Merge(left, newNode), right);
+        if (Root != null) Root.Parent = null;
+        Count++;
         OnNodeAdded(newNode);
     }
 
     public override bool Remove(TKey key)
     {
-        var (left, right) = Split(Root, key);
-        var (middle, newRight) = Split(right, key);
-        Root = Merge(left, newRight);
-        OnNodeRemoved(null, middle);
-        return middle != null;
+        var node = FindNode(key);
+        if (node == null) return false;
+        
+        var merged = Merge(node.Left, node.Right);
+        if (merged != null) merged.Parent = node.Parent;
+
+        if (node.Parent == null)
+        {
+            Root = merged;
+        }
+        else
+        {
+            if (node.Parent.Left == node) node.Parent.Left = merged;
+            else node.Parent.Right = merged;
+        }
+        Count--;
+        return true;
     }
 
     protected override TreapNode<TKey, TValue> CreateNode(TKey key, TValue value)
@@ -71,12 +87,10 @@ public class Treap<TKey, TValue> : BinarySearchTreeBase<TKey, TValue, TreapNode<
     }
     protected override void OnNodeAdded(TreapNode<TKey, TValue> newNode)
     {
-        throw new NotImplementedException();
     }
-    
+
     protected override void OnNodeRemoved(TreapNode<TKey, TValue>? parent, TreapNode<TKey, TValue>? child)
-    {
-        throw new NotImplementedException();
+    { 
+        
     }
-    
 }
